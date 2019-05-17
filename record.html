@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.js"></script>
+		<link href="css/mui.css" rel="stylesheet" />
+		<script type="text/javascript" src="js/echarts.min.js"></script>
+		<script type="text/javascript" src="js/record.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+	</head>
+	<body>
+		<!-- 缩放式侧滑（类手机QQ） -->
+		<!-- 侧滑导航根容器 -->
+		<div class="mui-off-canvas-wrap mui-draggable mui-scalable">
+			<!-- 菜单容器 -->
+			<aside class="mui-off-canvas-left mui-transitioning" id="offCanvasSide">
+
+			</aside>
+			<!-- 主页面容器 -->
+			<div class="mui-inner-wrap mui-transitioning">
+				<!-- 主页面标题 -->
+				<header class="mui-bar mui-bar-nav">
+					<a class="mui-icon mui-action-menu mui-icon-bars mui-pull-left" href="#offCanvasSide"></a>
+					<h1 class="mui-title">数据记录</h1>
+				</header>
+				<nav class="mui-bar mui-bar-tab">
+					<a href="index.html" class="mui-tab-item">
+						<span class="mui-icon mui-icon-list"></span>
+						<span class="mui-tab-label">列表</span>
+					</a>
+					<a href="detail.html" class="mui-tab-item">
+						<span class="mui-icon mui-icon-info"></span>
+						<span class="mui-tab-label">详情</span>
+					</a>
+					<a href="record.html" class="mui-tab-item mui-active">
+						<span class="mui-icon mui-icon-settings"></span>
+						<span class="mui-tab-label">数据记录</span>
+					</a>
+					<a href="edit.html" class="mui-tab-item">
+						<span class="mui-icon mui-icon-compose"></span>
+						<span class="mui-tab-label">参数修改</span>
+					</a>
+				</nav>
+				<div class="mui-content mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<!-- 主界面具体展示内容 -->
+						<div class="mui-content">
+							<select onchange="window.location=this.value;" style="font-size: 1rem; margin-top: 10px;">
+								<option value="record.html">数据类型选择</option>
+								<option value="charts/temperature.html">温度变化</option>
+								<option value="charts/humidity.html">湿度变化</option>
+								<option value="charts/co2.html">大气变化</option>
+							</select>
+							<div id="main" style="width: 100%;height:400px;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="mui-off-canvas-backdrop"></div>
+		<script src="js/customize.js"></script>
+	</body>
+</html>

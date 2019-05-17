@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.js"></script>
+		<link href="css/mui.css" rel="stylesheet" />
+		<script src="js/vue.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+	</head>
+	<body>
+		<!-- 缩放式侧滑（类手机QQ -->
+		<!-- 侧滑导航根容器 -->
+		<div class="mui-off-canvas-wrap mui-draggable mui-scalable">
+			<!-- 菜单容器 -->
+			<aside class="mui-off-canvas-left mui-transitioning" id="offCanvasSide">
+
+			</aside>
+			<!-- 主页面容器 -->
+			<div class="mui-inner-wrap mui-transitioning">
+				<!-- 主页面标题 -->
+				<header class="mui-bar mui-bar-nav">
+					<a class="mui-icon mui-action-menu mui-icon-bars mui-pull-left" href="#offCanvasSide"></a>
+					<h1 class="mui-title">数据记录</h1>
+				</header>
+				<nav class="mui-bar mui-bar-tab">
+					<a href="index.html" class="mui-tab-item">
+						<span class="mui-icon mui-icon-list"></span>
+						<span class="mui-tab-label">列表</span>
+					</a>
+					<a href="detail.html" class="mui-tab-item">
+						<span class="mui-icon mui-icon-info"></span>
+						<span class="mui-tab-label">详情</span>
+					</a>
+					<a href="record.html" class="mui-tab-item">
+						<span class="mui-icon mui-icon-settings"></span>
+						<span class="mui-tab-label">数据记录</span>
+					</a>
+					<a href="edit.html" class="mui-tab-item mui-active">
+						<span class="mui-icon mui-icon-compose"></span>
+						<span class="mui-tab-label">参数修改</span>
+					</a>
+				</nav>
+				<div class="mui-content mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<!-- 主界面具体展示内容 -->
+						<div class="mui-content">
+							<div style="padding: .75rem 1.25rem;margin-bottom: 0;background-color: rgba(0, 0, 0, .03);border-bottom: 1px solid rgba(0, 0, 0, .125);">参数修改</div>
+							<div class="mui-row" style="text-align: center;" id="vue">
+								<my-select v-for="select in selects" :text="select.text" :data="select.data"></my-select>
+								<my-input v-for="input in inputs" :input="input" ></my-input>
+								<button class="mui-btn mui-btn mui-btn-blue" type="submit"
+								style="width:90%; margin-top: 10px;">提交</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="mui-off-canvas-backdrop"></div>
+			</div>
+		</div>
+		<script src="js/customize.js"></script>
+		<script>
+			Vue.component('my-input', {
+				props: ['input'],
+				template: `
+				<div class="mui-col-xs-6">
+					<div class="mui-btn mui-btn mui-btn-blue" style="min-width: 170px;margin-top:10px;">
+						<span style="width: 40%;">{{input}}</span>
+						<input type="number" style="color: #000000; width: 60px;margin: 0;" />
+					</div>
+				</div>
+				`
+			})
+			Vue.component('my-select', {
+				props: ['text','data'],
+				template: `
+				<div class="mui-col-xs-6">
+					<div class="mui-btn mui-btn mui-btn-blue" style="min-width: 170px; margin-top:10px;">
+						<span style="width: 40%;">{{text}}</span>
+						<select style="color: #000000; width:60%;margin: 0;">
+				            <option v-for="d in data" :value="d.value">{{d.text}}</option>
+						</select>
+					</div>
+				</div>
+				`
+			})
+			new Vue({
+				el: '#vue',
+				data: {
+					inputs:["最高温度","最低温度","采集间隔","最高湿度","最低湿度"],
+					selects:[
+						{
+							text:"作物名称",
+							data:[
+								{
+									value:"请选择",text:"请选择"
+								},
+								{
+									value:"土豆",text:"土豆"
+								},								
+								{
+									value:"番茄",text:"番茄"
+								},
+								{
+									value:"香蕉",text:"香蕉"
+								},
+							]
+						},
+						{
+							text:"作物品种",
+							data:[
+								{
+									value:"请选择",text:"请选择"
+								},
+								{
+									value:"粮食作物",text:"粮食作物"
+								},								
+								{
+									value:"普通作物",text:"普通作物"
+								},
+							]
+						},						
+						{
+							text:"作物型号",
+							data:[
+								{
+									value:"请选择",text:"请选择"
+								},
+								{
+									value:"NO1",text:"NO1"
+								},								
+								{
+									value:"NO2",text:"NO2"
+								},
+							]
+						},
+						{
+							text:"土壤类型",
+							data:[
+								{
+									value:"请选择",text:"请选择"
+								},
+								{
+									value:"黑土",text:"黑土"
+								},								
+								{
+									value:"红土",text:"红土"
+								},
+							]
+						},
+						{
+							text:"灌溉方式",
+							data:[
+								{
+									value:"请选择",text:"请选择"
+								},
+								{
+									value:"喷射",text:"喷射"
+								},								
+								{
+									value:"灌溉",text:"灌溉"
+								},
+							]
+						},
+						{
+							text:"控制类型",
+							data:[
+								{
+									value:"请选择",text:"请选择"
+								},
+								{
+									value:"自动",text:"自动"
+								},								
+								{
+									value:"手动",text:"手动"
+								},
+							]
+						},
+					]
+				}
+			})
+		</script>
+		<script src="js/customize.js"></script>
+	</body>
+</html>

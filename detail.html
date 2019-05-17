@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.css" rel="stylesheet" />
+		<link href="css/iconfont.css" rel="stylesheet" />
+		<script type="text/javascript" src="js/mui.js"></script>
+		<script type="text/javascript" src="js/vue.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				pullRefresh: {
+					container: "#refreshContainer", //下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+					down: {
+						height: 50, //可选,默认50.触发下拉刷新拖动距离,
+						auto: false, //可选,默认false.首次加载自动下拉刷新一次
+						contentdown: "下拉可以刷新", //可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
+						contentover: "释放立即刷新", //可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
+						contentrefresh: "正在刷新...", //可选，正在刷新状态时，下拉刷新控件上显示的标题内容
+						callback: function pullfresh() {
+							//业务逻辑代码，比如通过ajax从服务器获取新数据；
+							//注意，加载完新数据后，必须执行如下代码，注意：若为ajax请求，则需将如下代码放置在处理完ajax响应数据之后
+							//没有更多内容了，endPulldown 传入true， 不再执行下拉刷新
+							// mui('#refreshContainer').pullRefresh()
+							setTimeout(function() {
+								vue1.refresh();
+								vue2.refresh();
+								mui('#refreshContainer').pullRefresh().endPulldownToRefresh(true);
+							}, 500);
+						} //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					}
+				}
+			});
+		</script>
+		<style>
+			.card-header {
+				padding: .75rem 1.25rem;
+				margin-bottom: 0;
+				background-color: rgba(0, 0, 0, .03);
+				border-bottom: 1px solid rgba(0, 0, 0, .125);
+			}
+
+			.show button {
+				font-size: 1rem;
+				margin-top: 5%;
+				min-width: 170px;
+			}
+
+			.control button {
+				font-size: 1rem;
+				margin-top: 10%;
+				min-width: 90px;
+			}
+
+			.active {
+				border: 1px solid #007aff;
+				background-color: #007aff;
+			}
+
+			.center {
+				text-align: center;
+			}
+		</style>
+
+	</head>
+	<body>
+		<!-- 缩放式侧滑（类手机QQ） -->
+		<!-- 侧滑导航根容器 -->
+		<div class="mui-off-canvas-wrap mui-draggable mui-scalable">
+			<!-- 菜单容器 -->
+			<aside class="mui-off-canvas-left mui-transitioning" id="offCanvasSide">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<!-- 菜单具体展示内容 -->
+					</div>
+				</div>
+			</aside>
+			<!-- 主页面容器 -->
+			<div class="mui-inner-wrap mui-transitioning">
+				<!-- 主页面标题 -->
+				<header class="mui-bar mui-bar-nav">
+					<a class="mui-icon mui-action-menu mui-icon-bars mui-pull-left" href="#offCanvasSide"></a>
+					<h1 class="mui-title">一号大棚</h1>
+				</header>
+				<nav class="mui-bar mui-bar-tab">
+					<a href="index.html" class="mui-tab-item mui">
+						<span class="mui-icon mui-icon-list"></span>
+						<span class="mui-tab-label">列表</span>
+					</a>
+					<a href="detail.html" class="mui-tab-item mui-active">
+						<span class="mui-icon mui-icon-info"></span>
+						<span class="mui-tab-label">详情</span>
+					</a>
+					<a href="record.html" class="mui-tab-item">
+						<span class="mui-icon mui-icon-settings"></span>
+						<span class="mui-tab-label">数据记录</span>
+					</a>
+					<a href="edit.html" class="mui-tab-item">
+						<span class="mui-icon mui-icon-compose"></span>
+						<span class="mui-tab-label">参数修改</span>
+					</a>
+				</nav>
+				<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<!-- 主界面具体展示内容 -->
+						<div class="mui-content">
+							<div class="card-header">
+								实时显示
+							</div>
+							<div class="mui-row center show" id="vue1">
+								<show-button v-for="button in buttons" :type="button.type" :value="button.value" :unit="button.unit"></show-button>
+							</div>
+							<div class="card-header">
+								实时控制
+							</div>
+							<div class="mui-row center control" id="vue2" style="margin: 0 4% 0 4%;">
+								<control-button v-for="button in buttons" :type="button.type" :icon="button.icon" :status="button.status"></control-button>
+							</div>
+							<div class="mui-off-canvas-backdrop"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<script>
+			Vue.component('show-button', {
+				props: ['type', 'value', 'unit'],
+				template: `
+				<div class="mui-col-xs-6">
+					<button type="button" class="mui-btn mui-btn-blue">{{type}}{{value}}{{unit}}</button>
+				</div>`
+			})
+			Vue.component('control-button', {
+				props: ['type', 'icon', 'status'],
+				template: `
+				<div class="mui-col-xs-3">
+					<button type="button" @click="status=!status" class="mui-btn mui-btn-grey" :class="{ active: status }"><i class="iconfont" :class="[icon]"></i>{{type}}</button>
+				</div>`
+			})
+			var vue1 = new Vue({
+				el: '#vue1',
+				data: {
+					buttons: [{
+							type: '根系温度',
+							value: 5,
+							unit: '°C'
+						},
+						{
+							type: '根系湿度',
+							value: 3,
+							unit: '°C'
+						},
+						{
+							type: '土表温度',
+							value: 0,
+							unit: '°C'
+						},
+						{
+							type: '土表湿度',
+							value: 2,
+							unit: '%RH'
+						},
+						{
+							type: '温室温度',
+							value: 10,
+							unit: '°C'
+						},
+						{
+							type: '温室湿度',
+							value: 0,
+							unit: '%RH'
+						},
+						{
+
+							type: '温室气压',
+							value: 20,
+							unit: 'Pa'
+
+						},
+						{
+							type: '通风风速',
+							value: 0,
+							unit: 'm/s'
+						},
+						{
+							type: 'CO2浓度',
+							value: 3,
+							unit: 'ppm'
+						}
+					]
+				},
+				methods: {
+					refresh: function() {
+						for (button in this.buttons) {
+							this.buttons[button].value = Math.floor(Math.random() * 25);
+						}
+					}
+				}
+			})
+			var vue2 = new Vue({
+				el: '#vue2',
+				data: {
+					buttons: [{
+							type: '通风1',
+							icon: "ia-fan",
+							status: true,
+						},
+						{
+							type: '通风2',
+							icon: "ia-fan",
+							status: false
+						},
+						{
+							type: '天窗1',
+							icon: "ia-air",
+							status: false
+						},
+						{
+							type: '天窗2',
+							icon: "ia-air",
+							status: false
+						},
+						{
+							type: '制热1',
+							icon: "ia-tem-rise",
+							status: true
+						},
+						{
+							type: '制热2',
+							icon: "ia-tem-rise",
+							status: false
+						},
+						{
+							type: '制热3',
+							icon: "ia-tem-rise",
+							status: false
+						},
+						{
+							type: '制热4',
+							icon: "ia-tem-rise",
+							status: false
+						},
+						{
+							type: '灌溉',
+							icon: "ia-flood",
+							status: false
+						},
+						{
+							type: '光照1',
+							icon: "ia-beam",
+							status: false
+						},
+						{
+							type: '光照2',
+							icon: "ia-beam",
+							status: false
+						},
+						{
+							type: '光照3',
+							icon: "ia-beam",
+							status: true
+						},
+						{
+							type: 'CO2',
+							icon: "ia-air",
+							status: false
+						}
+					]
+				},
+				methods: {
+					refresh: function() {
+						var arr = [true, false];
+						for (button in this.buttons) {
+							this.buttons[button].status = arr[Math.floor(Math.random() * arr.length)];
+						}
+					}
+				}
+			})
+		</script>
+		<script src="js/customize.js"></script>
+	</body>
+</html>
