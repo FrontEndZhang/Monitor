@@ -6,11 +6,25 @@
 		<title></title>
 		<script src="js/mui.js"></script>
 		<link href="css/mui.css" rel="stylesheet" />
+		<link href="css/iconfont.css" rel="stylesheet" />
 		<script type="text/javascript" charset="utf-8">
 			mui.init();
 		</script>
 		<script type="text/javascript" src="js/vue.js"></script>
-		<script type="text/javascript" src="js/index.js"></script>
+		<style>
+			.center {
+				text-align: center;
+			}			
+			.control button {
+				font-size: 1rem;
+				margin-top: 10%;
+				min-width: 90px;
+			}
+			.active {
+				border: 1px solid #007aff;
+				background-color: #007aff;
+			}
+		</style>
 	</head>
 	<body>
 		<!-- 缩放式侧滑（类手机QQ） -->
@@ -49,51 +63,57 @@
 				<div class="mui-content mui-scroll-wrapper myvue">
 					<div class="mui-scroll ">
 						<!-- 主界面具体展示内容 -->
-						<ul class="mui-table-view append_father ">
-							<li class="mui-table-view-cell mui-collapse append_cpoy" v-for="(obj,index) in objs">
-								<a class="mui-navigate-right name" href="#" v-cloak>{{obj.number}}</a>
-								<ul class="mui-table-view values ">
-									<li class="mui-table-view-cell first">
-										<span>详情 </span>
-										<button type="button" class="mui-btn mui-btn-blue" onclick="mui.openWindow({id:'detail.html',url:'detail.html'});">详情</button>
-									</li>
+						<div id="list">
+							<ul class="mui-table-view append_father ">
+								<li class="mui-table-view-cell mui-collapse append_cpoy" v-for="(obj,index) in objs">
+									<a class="mui-navigate-right name" href="#" v-cloak>{{obj.number}}</a>
+									<ul class="mui-table-view values ">
+										<li class="mui-table-view-cell first">
+											<span>详情 </span>
+											<button type="button" class="mui-btn mui-btn-blue" onclick="mui.openWindow({id:'detail.html',url:'detail.html'});">详情</button>
+										</li>
 
-									<li class="mui-table-view-cell template" v-on:tap="template">
-										<span>温度 </span>
-										<span v-bind:class="['mui-badge',tem[index] ]">{{obj.status[0]}}</span>
-									</li>
+										<li class="mui-table-view-cell template" v-on:tap="template">
+											<span>温度 </span>
+											<span v-bind:class="['mui-badge',tem[index] ]">{{obj.status[0]}}</span>
+										</li>
 
-									<li class="mui-table-view-cell humidity" v-on:tap="humidity">
-										<span>湿度 </span>
-										<span v-bind:class="['mui-badge',hum[index]]" v-cloak>{{obj.status[1]}}</span>
-									</li>
+										<li class="mui-table-view-cell humidity" v-on:tap="humidity">
+											<span>湿度 </span>
+											<span v-bind:class="['mui-badge',hum[index]]" v-cloak>{{obj.status[1]}}</span>
+										</li>
 
-									<li class="mui-table-view-cell" v-on:tap="cao">
-										<span>光照</span>
-										<span v-bind:class="['mui-badge',lux[index]]" v-cloak>{{obj.status[2]}}</span>
-									</li>
-									<li class="mui-table-view-cell">
-										<span style="color: brown;">删除大棚 </span>
-										<button type="button" class="mui-btn mui-btn-danger" v-on:click="del">删除</button>
-									</li>
-								</ul>
-
-							</li>
-
-						</ul>
-
-						<ul class="mui-table-view">
-							<li class="mui-table-view-cell">
-								<span style="color: green;">添加大棚</span>
-								<button type="button" class="mui-btn mui-btn-success add" v-on:click="add">添加</button>
-							</li>
-						</ul>
-
+										<li class="mui-table-view-cell" v-on:tap="cao">
+											<span>光照</span>
+											<span v-bind:class="['mui-badge',lux[index]]" v-cloak>{{obj.status[2]}}</span>
+										</li>
+										<li class="mui-table-view-cell">
+											<span style="color: brown;">删除大棚 </span>
+											<button type="button" class="mui-btn mui-btn-danger" v-on:click="del">删除</button>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell">
+									<span style="color: green;">添加大棚</span>
+									<button type="button" class="mui-btn mui-btn-success add" v-on:click="add">添加</button>
+								</li>
+							</ul>
+						</div>
+						<!-- 添加部分结束 -->
+						<img style="width: 100%; height: 400px;" />
+						<!-- 画面部分结束 -->
+						<div class="mui-row center control" id="control">
+							<control-button v-for="button in buttons" :type="button.type" :icon="button.icon" :status="button.status"></control-button>
+						</div>
+						<!-- 控制部分结束 -->
 					</div>
 				</div>
 				<div class="mui-off-canvas-backdrop"></div>
 			</div>
 		</div>
+		<script src="js/index.js"></script>
 		<script src="js/customize.js"></script>
 	</body>
 </html>
